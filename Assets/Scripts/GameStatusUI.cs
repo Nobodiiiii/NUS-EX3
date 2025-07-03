@@ -19,6 +19,6 @@ public class StatusUI : MonoBehaviour
         eggCountText.text = "Eggs in World: " + gm.eggCount;
         enemyCountText.text = "Enemies in World: " + gm.enemyCount;
         enemyDestroyedCountText.text = "Enemies Destroyed: " + gm.enemyDestroyedCount;
-        enemyMode.text = "Enemy movement mode: " + EnemyBehaviour.randomTrace;
+        enemyMode.text = "Enemy movement mode: " + (EnemyBehaviour.randomTrace?"random":"ordered");
     }
 }
