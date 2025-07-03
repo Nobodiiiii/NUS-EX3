@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class EnemyBehaviour : MonoBehaviour
 {
@@ -6,13 +7,13 @@ public class EnemyBehaviour : MonoBehaviour
     private SpriteRenderer sr;
     [SerializeField]
     //飞机移速
-    private float speed = 40f;
+    private float speed = 20f;
     [SerializeField]
     //飞机转向速率
-    private float rotateRate = 10f;
+    private float rotateRate = 0.8f;
     [SerializeField]
     //切换是否随机路径
-    private bool randomTrace = false;
+    public static bool randomTrace = false;
 
     [SerializeField]
     //追踪的路径点索引
@@ -23,15 +24,23 @@ public class EnemyBehaviour : MonoBehaviour
     private int MAXIndex = 6;
 
     private string[] wayPoints = { "A", "B", "C", "D", "E", "F" };
+    //生成随机数
+    private static System.Random rand;
+    //检测上一帧是否按下J键
+    private static bool lastMode = false;
+
+    public float angle;
 
     void Start()
     {
         sr = GetComponent<SpriteRenderer>();
+        rand = new System.Random();
     }
     void Update()
-    {
-        Vector3 p = FindCoord(wayPoints[traceIndex]);
-        PointAtPosition(p, rotateRate * Time.deltaTime);
+    {   
+        ToggleMode();//检测是否按下J键修改状态
+        Vector3 p = FindCoord(wayPoints[traceIndex], randomTrace);
+        PointAtPosition(p, rotateRate);
         transform.position += transform.up * speed * Time.deltaTime;
     }
     public void TakeDamage()
@@ -48,9 +57,10 @@ public class EnemyBehaviour : MonoBehaviour
         }
     }
     //根据名称查找坐标
-    public Vector3 FindCoord(string name)
+    public Vector3 FindCoord(string name,bool randomTrace)
     {
-        GameObject target = GameObject.Find(name);
+        GameObject target;
+        target = GameObject.Find(name);
         if (target != null)
         {
             return target.transform.position;
@@ -66,7 +76,16 @@ public class EnemyBehaviour : MonoBehaviour
     private void PointAtPosition(Vector3 p, float r)
     {
         Vector3 v = p - transform.localPosition;
-        transform.up = Vector3.LerpUnclamped(transform.up, v, r);
+        angle = Vector3.SignedAngle(transform.up,v,Vector3.forward);
+        transform.Rotate(0, 0, angle * rotateRate*Time.deltaTime);
+    }
+    private static void ToggleMode()
+    {
+        if (Input.GetKey(KeyCode.J)^lastMode&&!lastMode)//检测上升沿
+        {
+            randomTrace = !randomTrace;
+        }
+        lastMode = Input.GetKey(KeyCode.J);
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -76,7 +95,10 @@ public class EnemyBehaviour : MonoBehaviour
         if (collision.gameObject.name == wayPoints[traceIndex])
         {
             Debug.Log("Reached " + wayPoints[traceIndex]);
-            traceIndex = (traceIndex + 1) % MAXIndex;
+            int randNum = rand.Next(0, wayPoints.Length);
+            randNum = randNum == traceIndex ? (randNum + 1)%MAXIndex : randNum;
+            traceIndex = randomTrace? randNum : (traceIndex + 1) % MAXIndex;
         }
     }
+
 }

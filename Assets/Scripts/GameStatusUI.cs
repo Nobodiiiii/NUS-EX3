@@ -8,6 +8,7 @@ public class StatusUI : MonoBehaviour
     public TMP_Text eggCountText;
     public TMP_Text enemyCountText;
     public TMP_Text enemyDestroyedCountText;
+    public TMP_Text enemyMode;
 
     void Update()
     {
@@ -18,5 +19,6 @@ public class StatusUI : MonoBehaviour
         eggCountText.text = "Eggs in World: " + gm.eggCount;
         enemyCountText.text = "Enemies in World: " + gm.enemyCount;
         enemyDestroyedCountText.text = "Enemies Destroyed: " + gm.enemyDestroyedCount;
+        enemyMode.text = "Enemy movement mode: " + EnemyBehaviour.randomTrace;
     }
 }

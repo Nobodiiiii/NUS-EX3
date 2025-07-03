@@ -25,6 +25,10 @@ public class GameManager : MonoBehaviour
     private Dictionary<string, GameObject> letterMap = new Dictionary<string, GameObject>();
     private string[] lettersNames = { "A", "B", "C", "D", "E", "F" };
 
+    //字母是否显示
+    public static bool isShowed = true;
+    public static bool lastH = false;
+
     void Awake()
     {
         instance = this;
@@ -51,7 +55,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        
+        ToggleMode();
         if (Input.GetKeyDown(KeyCode.Q))
         {
             Debug.Log("Quit pressed");
@@ -128,5 +132,18 @@ public class GameManager : MonoBehaviour
                 letterMap[letter] = go;
             }
         }
+    }
+    //切换是否显示字母
+    private void ToggleMode()
+    {
+        if ((Input.GetKey(KeyCode.H) ^ lastH) && !lastH)//检测上升沿
+        {
+            isShowed = !isShowed;
+            for (int i = 0; i < lettersNames.Length; i++)
+            {
+                letterMap[lettersNames[i]].GetComponent<TextMeshPro>().enabled = isShowed;
+            }
+        }
+        lastH = Input.GetKey(KeyCode.H);
     }
 }

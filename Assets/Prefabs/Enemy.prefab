@@ -145,10 +145,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 100
-  rotateRate: 1
-  randomTrace: 0
+  rotateRate: 3
   traceIndex: 0
   MAXIndex: 6
+  angle: 0
 --- !u!50 &-7587828597334675397
 Rigidbody2D:
   serializedVersion: 4
