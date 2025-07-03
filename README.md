@@ -59,12 +59,15 @@ YourUnityGame/
 
 * 缩进：使用 4 个空格。
 * 每行不超过 120 字符。
-* 大括号风格：K\&R 风格
+* 大括号风格：Allmen 风格
 
   ```csharp
-  if (condition) {
+  if (condition)
+  {
       DoSomething();
-  } else {
+  }
+  else
+  {
       DoOther();
   }
   ```
