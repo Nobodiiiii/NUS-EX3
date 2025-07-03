@@ -300,6 +300,8 @@ MonoBehaviour:
   enemyDestroyedCount: 0
   maxEnemyCount: 10
   enemyPrefab: {fileID: 4912445044646945820, guid: f472ad3bc514e864ba886d8ab3939ad4, type: 3}
+  canvasRect: {fileID: 83307577}
+  letterPrefab: {fileID: 6523912340610720463, guid: f95291060a346dc42a98fa1cb69cc75e, type: 3}
 --- !u!1 &304812309
 GameObject:
   m_ObjectHideFlags: 0
