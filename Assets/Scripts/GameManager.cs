@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    // ÓÎÏ·×´Ì¬
+    // æ¸¸æˆçŠ¶æ€
     public string heroControlMode = "Mouse";
     public int heroCollisionCount = 0;
     public int eggCount = 0;
@@ -15,12 +15,12 @@ public class GameManager : MonoBehaviour
     private float worldBoundY;
     private float worldBoundX;
 
-    // µĞÈËÉú³É
+    // æ•Œäººç”Ÿæˆ
     public int maxEnemyCount = 10;
     public GameObject enemyPrefab;
     private List<GameObject> enemies = new List<GameObject>();
 
-    // ×ÖÄ¸Éú³É
+    // å­—æ¯ç”Ÿæˆ
     public GameObject letterPrefab;
     private Dictionary<string, GameObject> letterMap = new Dictionary<string, GameObject>();
     private string[] lettersNames = { "A", "B", "C", "D", "E", "F" };
@@ -35,13 +35,13 @@ public class GameManager : MonoBehaviour
         worldBoundY = Camera.main.orthographicSize;
         worldBoundX = worldBoundY * Camera.main.aspect;
 
-        // µĞÈËÉú³É
+        // æ•Œäººç”Ÿæˆ
         for (int i = 0; i < maxEnemyCount; i++)
         {
             SpawnEnemy();
         }
 
-        // ×ÖÄ¸Éú³É
+        // å­—æ¯ç”Ÿæˆ
         foreach (string letter in lettersNames)
         {
             GameObject go = SpawnLetter(letter);
@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour
 
     }
 
-    // µĞÈËÉú³É
+    // æ•Œäººç”Ÿæˆ
     void SpawnEnemy()
     {
         Vector2 pos = new Vector2(
@@ -75,7 +75,7 @@ public class GameManager : MonoBehaviour
         enemies.Add(enemy);
     }
 
-    // ×ÖÄ¸Éú³É
+    // å­—æ¯ç”Ÿæˆ
     GameObject SpawnLetter(string letter)
     {
         float rowYTop = worldBoundY * 0.5f;
@@ -92,6 +92,8 @@ public class GameManager : MonoBehaviour
         Vector3 position = new Vector3(x, y, 0);
 
         GameObject letterGO = Instantiate(letterPrefab, position, Quaternion.identity);
+        // è®¾ç½®å­—æ¯åç§°ï¼Œä¾¿äºé£æœºæŸ¥æ‰¾
+        letterGO.name = letter;
 
         var text = letterGO.GetComponent<TextMeshPro>();
         if (text != null)
@@ -104,7 +106,7 @@ public class GameManager : MonoBehaviour
         return letterGO;
     }
 
-    // µĞÈËÖØÉú
+    // æ•Œäººé‡ç”Ÿ
     void RespawnEnemies()
     {
         enemies.RemoveAll(e => e == null);
@@ -115,7 +117,7 @@ public class GameManager : MonoBehaviour
         enemyCount = enemies.Count;
     }
 
-    // ×ÖÄ¸ÖØÉú
+    // å­—æ¯é‡ç”Ÿ
     void RespawnLetters()
     {
         foreach (string letter in lettersNames)
