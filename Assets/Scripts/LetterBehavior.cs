@@ -3,14 +3,16 @@ using TMPro;
 
 public class LetterBehaviour : MonoBehaviour
 {
-    public string letterName;  // ±£´æÕâ¸ö¶ÔÏó´ú±íµÄ×ÖÄ¸
+    public string letterName;  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¸
 
     private int hitCount = 0;
     private TextMeshPro tmp;
+   
 
     void Start()
     {
         tmp = GetComponent<TextMeshPro>();
+        
     }
     public void TakeDamage()
     {

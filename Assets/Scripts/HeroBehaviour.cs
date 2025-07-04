@@ -11,7 +11,14 @@ public class HeroBehavoiur : MonoBehaviour
     public GameObject eggPrefab;
     private float lastShootTime = -999f;
     private float shootCooldown = 0.2f;
+    
+    // 添加CoolDownBar引用
+    public CoolDownBar mCoolDown;
 
+    void Start()
+    {
+        Debug.Assert(mCoolDown != null);   // Must be set in the editor
+    }
 
     void Update()
     {
@@ -30,12 +37,20 @@ public class HeroBehavoiur : MonoBehaviour
             KeyboardControl();
         }
 
-        if (Input.GetKey(KeyCode.Space) && Time.time - lastShootTime >= shootCooldown)
+        if (Input.GetKey(KeyCode.Space)&& Time.time - lastShootTime >= shootCooldown)
         {
-            GameObject egg = Instantiate(eggPrefab, transform.position, transform.rotation);
-            lastShootTime = Time.time;
-            GameManager.instance.eggCount++;
+            
+            
+                GameObject egg = Instantiate(eggPrefab, transform.position, transform.rotation);
+                lastShootTime = Time.time;
+                Debug.Log("Spawn Eggs:" + egg.transform.localPosition);
+                GameManager.instance.eggCount++;
+                mCoolDown.TriggerCoolDown();
+            
         }
+        
+        // make sure cool down period is that of the slider bar
+        mCoolDown.SetCoolDownLength(shootCooldown);
     }
 
     void MouseControl()
