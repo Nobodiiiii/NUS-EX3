@@ -30,6 +30,11 @@ public class EggBehaviour : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other)
     {
         if (hasHit) return;
+        if (!(other.CompareTag("Enemy") || other.CompareTag("Letter"))) return;
+
+        hasHit = true;
+        Destroy(gameObject);
+        GameManager.instance.eggCount--;
 
         if (other.CompareTag("Enemy"))
         {
@@ -39,9 +44,16 @@ public class EggBehaviour : MonoBehaviour
                 eb.TakeDamage();
             }
 
-            hasHit = true;
-            Destroy(gameObject);
-            GameManager.instance.eggCount--;
+
+        }
+        else if (other.CompareTag("Letter"))
+        {
+            Debug.Log("111");
+            LetterBehaviour lb = other.GetComponent<LetterBehaviour>();
+            if (lb != null)
+            {
+                lb.TakeDamage();
+            }
         }
     }
 
