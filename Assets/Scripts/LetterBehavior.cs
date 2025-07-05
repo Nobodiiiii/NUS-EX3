@@ -3,7 +3,7 @@ using TMPro;
 
 public class LetterBehaviour : MonoBehaviour
 {
-    public string letterName;  // ������������������ĸ
+    public string letterName; 
 
     private int hitCount = 0;
     private TextMeshPro tmp;
