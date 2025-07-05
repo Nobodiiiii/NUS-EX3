@@ -57,8 +57,8 @@ public static bool isShowed = true;
         // 字母生成
         foreach (string letter in lettersNames)
         {
-            GameObject go = SpawnLetter(letter);
-            letterMap[letter] = go;
+            GameObject go = SpawnLetter(letter , 0 , 0 );
+            letterMap[letter] = go; 
         }
     }
 
@@ -89,7 +89,7 @@ public static bool isShowed = true;
     }
 
     // 字母生成
-    GameObject SpawnLetter(string letter)
+    GameObject SpawnLetter(string letter , float offsetX, float offsetY)
     {
         int i = System.Array.IndexOf(lettersNames, letter);
         if (i < 0 || i >= letterPos.Length)
@@ -101,8 +101,6 @@ public static bool isShowed = true;
         Vector2 basePos = letterPos[i];
 
         // 在基础位置上进行 ±15 范围的随机偏移
-        float offsetX = Random.Range(-15f, 15f);
-        float offsetY = Random.Range(-15f, 15f);
         Vector3 position = new Vector3(basePos.x + offsetX, basePos.y + offsetY, 0);
 
         GameObject letterGO = Instantiate(letterPrefab, position, Quaternion.identity);
@@ -138,7 +136,9 @@ public static bool isShowed = true;
         {
             if (letterMap[letter] == null)
             {
-                GameObject go = SpawnLetter(letter);
+                float offsetX = Random.Range(-15f, 15f);
+                float offsetY = Random.Range(-15f, 15f);
+                GameObject go = SpawnLetter(letter, offsetX, offsetY);
                 letterMap[letter] = go;
             }
         }
