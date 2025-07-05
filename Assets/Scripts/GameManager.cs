@@ -24,9 +24,18 @@ public class GameManager : MonoBehaviour
     public GameObject letterPrefab;
     private Dictionary<string, GameObject> letterMap = new Dictionary<string, GameObject>();
     private string[] lettersNames = { "A", "B", "C", "D", "E", "F" };
+    private Vector2[] letterPos = new Vector2[] {
+    new Vector2(-70, 70),
+    new Vector2(70, -70),
+    new Vector2(30, 0),
+    new Vector2(-70, -70),
+    new Vector2(70, 70),
+    new Vector2(-30, 0)
+    };
 
-    //字母是否显示
-    public static bool isShowed = true;
+
+//字母是否显示
+public static bool isShowed = true;
     public static bool lastH = false;
 
     void Awake()
@@ -82,21 +91,21 @@ public class GameManager : MonoBehaviour
     // 字母生成
     GameObject SpawnLetter(string letter)
     {
-        float rowYTop = worldBoundY * 0.5f;
-        float rowYBottom = -worldBoundY * 0.5f;
         int i = System.Array.IndexOf(lettersNames, letter);
+        if (i < 0 || i >= letterPos.Length)
+        {
+            Debug.LogWarning("Letter not found in base list: " + letter);
+            i = 0;
+        }
 
-        float y = (i < 3) ? rowYTop : rowYBottom;
-        float t = (i % 3) / 2.0f;
-        float x = Mathf.Lerp(-worldBoundX * 0.7f, worldBoundX * 0.7f, t);
+        Vector2 basePos = letterPos[i];
 
-        x += Random.Range(-30f, 30f);
-        y += Random.Range(-20f, 20f);
-
-        Vector3 position = new Vector3(x, y, 0);
+        // 在基础位置上进行 ±15 范围的随机偏移
+        float offsetX = Random.Range(-15f, 15f);
+        float offsetY = Random.Range(-15f, 15f);
+        Vector3 position = new Vector3(basePos.x + offsetX, basePos.y + offsetY, 0);
 
         GameObject letterGO = Instantiate(letterPrefab, position, Quaternion.identity);
-        // 设置字母名称，便于飞机查找
         letterGO.name = letter;
 
         var text = letterGO.GetComponent<TextMeshPro>();
@@ -109,6 +118,7 @@ public class GameManager : MonoBehaviour
 
         return letterGO;
     }
+
 
     // 敌人重生
     void RespawnEnemies()
